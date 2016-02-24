@@ -5,6 +5,7 @@ const merge = require('webpack-merge');
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'app'),
+  content: path.join(__dirname, 'content'),
   build: path.join(__dirname, 'build')
 };
 
@@ -19,20 +20,22 @@ const common = {
     filename: 'bundle.js'
   },
   module: {
+    preLoaders: [],
     loaders: [
-      {
-        // Test expects a RegExp! Note the slashes!
+    {
+       // Test expects a RegExp! Note the slashes!
         test: /\.css$/,
         loaders: ['style', 'css'],
         // Include accepts either a path or an array of paths.
-        include: PATHS.app
+        include: PATHS.content
       },
       {
-        test: /\.css$/,
+       // Test expects a RegExp! Note the slashes!
+        test: /\.scss$/,
         loaders: ['style', 'css', 'sass'],
         // Include accepts either a path or an array of paths.
-        include: PATHS.app
-      },
+        include: PATHS.content
+      }
     ]
   }
 };
@@ -41,8 +44,7 @@ const common = {
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devServer: {
-      contentBase: PATHS.build, 
-
+      contentBase: PATHS.build,
       // Enable history API fallback so HTML5 History API based
       // routing works. This is a good default that will come
       // in handy in more complicated setups.

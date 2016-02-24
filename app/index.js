@@ -1,3 +1,4 @@
+require('../content/app.scss');
 var component = require('./component');
 var app = document.createElement('div');
 
